@@ -1,0 +1,16 @@
+
+# Virtual environment
+venv/
+.env/
+graficar_env/*
+
+PENDIENTES.md
+
+versiones/*
+beta_app.py
+
+__pycache__/
+
+
+# Streamlit cache
+.streamlit/
