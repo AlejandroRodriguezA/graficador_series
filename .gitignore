@@ -14,3 +14,15 @@ __pycache__/
 
 # Streamlit cache
 .streamlit/
+
+
+# Data files
+*.csv
+*.xlsx
+*.xml 
+*.cvs
+
+
+# Pero no ignores este archivo específico
+!src/muestra.csv
+!src/muestra.xlsx

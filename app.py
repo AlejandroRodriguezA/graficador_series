@@ -54,31 +54,10 @@ def mostrar_checkBox(df, check_key):
     with col4:
         st.session_state['ver_muestra'] = st.checkbox("Mostrar solo muestra", value=st.session_state['ver_muestra'], key = check_key)
     with col5:
-        st.session_state['muestra'] = st.slider("Muestra:", min_value=100, max_value=len(df), value=st.session_state['muestra'])
+        st.session_state['muestra'] = st.slider("Muestra:", min_value=10, max_value=len(df), value=st.session_state['muestra'])
 
 
-#def mostrar_datos_grafico(df, col_x, col_y, col_z, promedio, maximo, titulo_grafico=None):
-    #datos = df.head(st.session_state['muestra']) if st.session_state['ver_muestra'] else df
-
-    #chart = confg.configurar_grafico_altair(
-        #df=datos,
-        #col_x=col_x,
-        #col_y=col_y,
-        #col_z=col_z,
-        #promedio=promedio,
-        #maximo=maximo,
-        #titulo_grafico=titulo_grafico,
-        #color_linea='red',
-        #estilo_linea='solid',
-        #tamano_titulo=16,
-        #alineacion_titulo='middle',
-        #subtitulo_eje_x=f"{col_x} agrupado por {col_z}",
-        #tamano_subtitulo=12
-    #)
-
-    #return chart
-
-
+    
 
 def main():
     # Configuracion de la pagina, CCS
