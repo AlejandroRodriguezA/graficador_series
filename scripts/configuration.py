@@ -1,8 +1,10 @@
 import streamlit as st
 import numpy as np
 import altair as alt
+import pandas as pd
 
 def configuracion_page():
+    st.title("Visualizador de Gráficas")
     st.markdown(
         """
         <style>
@@ -17,28 +19,7 @@ def configuracion_page():
     )
 
 
-def configurar_grafico(fig, x1, p):
-    """ Configuracion de la grafica usando Plotly"""
-    fig.update_layout(
-        title_text='EPS - ' + p, 
-        title_x=0.5,
-        title_subtitle_text='Este grafico es interactivo SabaEvents',
-        title_font_color="red",
-        title_subtitle_font_color="blue",
-        xaxis_tickangle=-45,
-        xaxis_title='Dates',
-        yaxis_title='Events',
-        xaxis=dict(
-            tickmode='array',
-            tickvals=np.arange(0, len(x1) + 1, 10000),
-            ticktext=[str(i) for i in x1[::10000]]
-        )
-    )
-    return fig
 
-
-import altair as alt
-import pandas as pd
 
 def configurar_grafico_altair(
     df,
@@ -97,4 +78,27 @@ def configurar_grafico_altair(
 
     return barras + linea_promedio
 
+def reseteo_total():
+    for i in st.session_state.keys():
+        del st.session_state[i]
+    st.rerun()
 
+
+def configurar_grafico(fig, x1, p):
+    """ Configuracion de la grafica usando Plotly"""
+    fig.update_layout(
+        title_text='EPS - ' + p, 
+        title_x=0.5,
+        title_subtitle_text='Este grafico es interactivo SabaEvents',
+        title_font_color="red",
+        title_subtitle_font_color="blue",
+        xaxis_tickangle=-45,
+        xaxis_title='Dates',
+        yaxis_title='Events',
+        xaxis=dict(
+            tickmode='array',
+            tickvals=np.arange(0, len(x1) + 1, 10000),
+            ticktext=[str(i) for i in x1[::10000]]
+        )
+    )
+    return fig

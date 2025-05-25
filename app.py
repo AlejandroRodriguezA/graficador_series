@@ -7,18 +7,59 @@ import plotly.graph_objects as go
 from scripts import procesador as proc
 from scripts import configuration as confg
 
+n = 0
+
 
 def cargar_datos():
+    global n 
+    #n += 1
+    #print(f"Entro y paso: {n}")
+
     with st.sidebar.expander("Datos del Archivo:", expanded=True):
-        archivo = st.file_uploader("Selecciona un archivo Excel", type=["xlsx", "xls"])
-        if archivo is not None:
-            xls = proc.cargar_excel(archivo)
-            hojas = xls.sheet_names
-            hoja = st.selectbox("Selecciona una hoja", hojas)
-            if st.button("Cargar hoja"):
-                st.session_state['df'] = proc.leer_hoja(archivo, hoja)
-                st.session_state['columnas'] = proc.obtener_columnas(st.session_state['df'])
-                st.session_state['mostrar_grafico'] = True
+        opcion = st.radio("¿Qué datos quieres usar?", ["Usar datos de muestra", "Subir mi propio archivo"])
+        
+
+        if opcion == "Usar datos de muestra":
+            archivo = "data/muestra.xlsx"
+            try:
+                xls = proc.cargar_excel(archivo)
+                hojas = xls.sheet_names
+                hoja = st.selectbox("Selecciona una hoja", hojas, key="hoja_muestra")
+                if st.button("Cargar hoja de muestra"):
+                    n += 1
+                    print(n)
+                    st.session_state['df'] = proc.leer_hoja(archivo, hoja)
+                    st.session_state['columnas'] = proc.obtener_columnas(st.session_state['df'])
+                    st.session_state['mostrar_grafico'] = True
+            except Exception as e:
+                st.error(f"No se pudo cargar el archivo de muestra: {e}")
+
+        else:
+            archivo = st.file_uploader("Selecciona un archivo Excel", type=["xlsx", "xls"])
+            if archivo is not None:
+                try:
+                    xls = proc.cargar_excel(archivo)
+                    hojas = xls.sheet_names
+                    hoja = st.selectbox("Selecciona una hoja", hojas, key="hoja_usuario")
+                    if st.button("Cargar hoja del archivo"):
+                        st.session_state['df'] = proc.leer_hoja(archivo, hoja)
+                        st.session_state['columnas'] = proc.obtener_columnas(st.session_state['df'])
+                        st.session_state['mostrar_grafico'] = True
+                except Exception as e:
+                    st.error(f"No se pudo cargar el archivo: {e}")
+
+
+#def cargar_datos():
+    #with st.sidebar.expander("Datos del Archivo:", expanded=True):
+        #archivo = st.file_uploader("Selecciona un archivo Excel", type=["xlsx", "xls"])
+        #if archivo is not None:
+            #xls = proc.cargar_excel(archivo)
+            #hojas = xls.sheet_names
+            #hoja = st.selectbox("Selecciona una hoja", hojas)
+            #if st.button("Cargar hoja"):
+                #st.session_state['df'] = proc.leer_hoja(archivo, hoja)
+                #st.session_state['columnas'] = proc.obtener_columnas(st.session_state['df'])
+                #st.session_state['mostrar_grafico'] = True
 
 def configurar_datos_grafico():
     with st.sidebar.expander("Datos del gráfico", expanded=True):
